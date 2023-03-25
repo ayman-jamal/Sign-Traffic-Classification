@@ -206,26 +206,25 @@ MPI_labels = np.array(MPI_labels)
 # [It could be (min/max)imum  on different machine, that depends on the computationl power] 
 
 # %%time 
-# import numpy as np
-# import matplotlib.image as mpimg
+import matplotlib.image as mpimg
 
-# data = []
-# labels = []
+data = []
+labels = []
 
-# for path in Train_images['Path']:
-#         try:
-#             image = mpimg.imread(dataset_directory + '/' + path)
-#             image_f = Image.fromarray(image, 'RGB')
-#             size_image = image_f.resize((30, 30))
-#             data.append(np.array(size_image))
-#             label = Train_images[Train_images['Path']==path]['ClassId'].values[0]
-#             labels.append(label)
-#         except:
-#             print("Error in " + img)
-#             break
+for path in Train_images['Path']:
+        try:
+            image = mpimg.imread(dataset_directory + '/' + path)
+            image_f = Image.fromarray(image, 'RGB')
+            size_image = image_f.resize((30, 30))
+            data.append(np.array(size_image))
+            label = Train_images[Train_images['Path']==path]['ClassId'].values[0]
+            labels.append(label)
+        except:
+            print("Error in " + img)
+            break
 
-# data = np.array(data)
-# labels = np.array(labels)
+data = np.array(data)
+labels = np.array(labels)
 
 # sign = 1  
 
@@ -285,63 +284,6 @@ y_val = keras.utils.to_categorical(y_val, 43)
 
 print(y_train.shape)
 print(y_val.shape)
-
-model0 = tf.keras.models.Sequential([
-     keras.layers.Flatten(),
-     keras.layers.Dense(512,activation='relu'),
-     keras.layers.Normalization(),
-     keras.layers.Dense(256,activation='relu'),
-     keras.layers.Dropout(0.5),
-     keras.layers.Dense(128,activation='relu'),
-     keras.layers.Dense(64,activation='relu'),
-     keras.layers.Dropout(0.5),
-     keras.layers.Dense(43, activation='softmax')
-
-])
-
-model0.compile(loss='categorical_crossentropy',
-               optimizer="SGD",
-                metrics=['accuracy'])
-history = model0.fit(x_train, y_train, batch_size=32, epochs=10, validation_data=(x_val, y_val))
-
-model1 = tf.keras.models.Sequential([
-     keras.layers.Flatten(),
-     keras.layers.Dense(512,activation='relu'),
-     keras.layers.Normalization(),
-     keras.layers.Dense(256,activation='relu'),
-     keras.layers.Dropout(0.5),
-     keras.layers.Dense(128,activation='relu'),
-     keras.layers.Dense(64,activation='relu'),
-     keras.layers.Dropout(0.5),
-     keras.layers.Dense(43, activation='softmax')
-
-])
-
-model1.compile(loss='categorical_crossentropy',
-               optimizer="Adam",
-                metrics=['accuracy'])
-history = model1.fit(x_train, y_train, batch_size=32, epochs=10, validation_data=(x_val, y_val))
-
-from tensorflow.keras.layers import LeakyReLU
-
-model2 = tf.keras.models.Sequential([
-     keras.layers.Flatten(),
-     keras.layers.Dense(512,activation=LeakyReLU()),
-     keras.layers.Normalization(),
-     keras.layers.Dense(256,activation=LeakyReLU()),
-     keras.layers.Dropout(0.5),
-     keras.layers.Dense(128,activation=LeakyReLU()),
-     keras.layers.Dense(64,activation=LeakyReLU()),
-     keras.layers.Dropout(0.5),
-     keras.layers.Dense(43, activation='softmax')
-
-])
-
-
-model2.compile(loss='categorical_crossentropy',
-               optimizer="Adam",
-                metrics=['accuracy'])
-history = model2.fit(x_train, y_train, batch_size=32, epochs=10, validation_data=(x_val, y_val))
 
 """#Pretrained Model => ResNet50"""
 
